@@ -7,6 +7,12 @@ function newSyncQueue(e = true) {
 	var enabled = e;
 	var counter = 0;
 
+	const guard = async function (task, param = null) {
+		return new Promise(function (res, rej) {
+			task(param).then(res(true));
+		});
+	}
+
 	const execute = async function (redo = false) {
 		if (!enabled || (executing && !redo)) {
 			return;
@@ -20,7 +26,7 @@ function newSyncQueue(e = true) {
 			var item = queue[cursor];
 
 			try {
-				await item.callback(item.param);
+				await guard(item.callback, item.param);
 			}
 			catch (e) {
 				console.log(e);
@@ -33,7 +39,7 @@ function newSyncQueue(e = true) {
 
 		for (var i in onCompleteCallbacks) {
 			try {
-				await onCompleteCallbacks[i]();
+				await guard(onCompleteCallbacks[i]);
 			}
 			catch (e) {
 				console.log(e);
