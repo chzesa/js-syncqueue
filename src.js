@@ -8,8 +8,8 @@ function newSyncQueue(e = true) {
 	var counter = 0;
 
 	const guard = async function (task, param = null) {
-		return new Promise(function (res, rej) {
-			task(param).then(res(true));
+		return new Promise(async function (res, rej) {
+			await task(param).then(res);
 		});
 	}
 
