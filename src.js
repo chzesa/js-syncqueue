@@ -29,9 +29,9 @@ function newSyncQueue(e = true) {
 
 		while (cursor < queue.length) {
 			var item = queue[cursor];
+			cursor++;
 			await guard(item.callback, item.param);
 			item.resolve();
-			cursor++;
 		}
 
 		queue.splice(0, cursor);
