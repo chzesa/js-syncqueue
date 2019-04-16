@@ -5,7 +5,7 @@ function newSyncQueue(e = true) {
 
 	var executing = false;
 	var enabled = e;
-	var counter = 0;
+	var cursor = 0;
 
 	const guard = async function (task, param = null) {
 		return new Promise(async function (res, rej) {
@@ -25,14 +25,11 @@ function newSyncQueue(e = true) {
 		}
 
 		executing = true;
-		var cursor = 0;
+		cursor = 0;
 
 		while (cursor < queue.length) {
-			counter++;
 			var item = queue[cursor];
-
 			await guard(item.callback, item.param);
-
 			cursor++;
 		}
 
@@ -73,10 +70,10 @@ function newSyncQueue(e = true) {
 		}
 
 		while (executing) {
-			var startCounter = counter;
+			var startCounter = cursor;
 			await wait(timeout);
 
-			if (counter == startCounter) {
+			if (cursor == startCounter) {
 				executing = false;
 			}
 		}
