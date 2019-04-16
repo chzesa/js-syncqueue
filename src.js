@@ -30,6 +30,7 @@ function newSyncQueue(e = true) {
 		while (cursor < queue.length) {
 			var item = queue[cursor];
 			await guard(item.callback, item.param);
+			item.resolve();
 			cursor++;
 		}
 
@@ -48,12 +49,16 @@ function newSyncQueue(e = true) {
 	}
 
 	self.do = function (param, callback) {
-		queue.push({
-			param
-			, callback
-		});
+		return new Promise(function(resolve, reject) {
+			queue.push({
+				param
+				, callback
+				, resolve
+				, reject
+			});
 
-		execute();
+			execute();
+		});
 	}
 
 	self.onComplete = function (callback) {
