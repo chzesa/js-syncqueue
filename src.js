@@ -1,4 +1,4 @@
-function newSyncQueue(config) {
+function newSyncQueue(config = {}) {
 	const self = {};
 	const queue = [];
 	const onCompleteCallbacks = [];
