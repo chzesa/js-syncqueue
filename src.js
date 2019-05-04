@@ -7,10 +7,14 @@ function newSyncQueue(config = {}) {
 	var executing = false;
 	var cursor = 0;
 
-	async function guard(task, param = null) {
+	async function guard(task, param) {
 		return new Promise(async function (res, rej) {
 			try {
-				await task(...param).then(res);
+				if (param == null) {
+					await task().then(res);	
+				} else {
+					await task(...param).then(res);
+				}
 			}
 			catch (e) {
 				console.log(e);
