@@ -19,33 +19,27 @@ function newSyncQueue(config) {
 		});
 	}
 
-	async function execute(redo = false) {
-		if (!enabled || (executing && !redo)) {
-			return;
-		}
-
+	async function execute() {
+		if (executing) return;
 		executing = true;
-		cursor = 0;
 
-		while (cursor < queue.length) {
-			var item = queue[cursor];
-			cursor++;
-			await guard(item.callback, item.param);
-			item.resolve();
+		while (queue.length > 0 && enabled) {
+			cursor = 0;
+			while (cursor < queue.length) {
+				var item = queue[cursor];
+				cursor++;
+				await guard(item.callback, item.param);
+				item.resolve();
+			}
+
+			queue.splice(0, cursor);
+
+			for (var i in onCompleteCallbacks) {
+				await guard(onCompleteCallbacks[i]);
+			}
 		}
 
-		queue.splice(0, cursor);
-
-		for (var i in onCompleteCallbacks) {
-			await guard(onCompleteCallbacks[i]);
-		}
-
-		if (queue.length > 0) {
-			execute(true);
-		}
-		else {
-			executing = false
-		}
+		executing = false
 	}
 
 	self.do = function (callback, ...param) {
