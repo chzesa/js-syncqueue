@@ -7,7 +7,7 @@ function newSyncQueue(config = {}) {
 	var executing = false;
 	var cursor = 0;
 
-	async function guard(task, param) {
+	async function guard (task, param) {
 		return new Promise(async function (res, rej) {
 			try {
 				if (param == null) {
@@ -23,7 +23,7 @@ function newSyncQueue(config = {}) {
 		});
 	}
 
-	async function execute() {
+	async function execute () {
 		if (executing) return;
 		executing = true;
 
@@ -47,7 +47,7 @@ function newSyncQueue(config = {}) {
 	}
 
 	self.do = function (callback, ...param) {
-		return new Promise(function(resolve, reject) {
+		return new Promise(function (resolve, reject) {
 			queue.push({
 				param
 				, callback
@@ -66,7 +66,7 @@ function newSyncQueue(config = {}) {
 	self.disable = async function (timeout = 1000) {
 		enabled = false;
 
-		async function wait(dur) {
+		async function wait (dur) {
 			return new Promise(function (res) {
 				setTimeout(res, dur);
 			});
@@ -82,7 +82,7 @@ function newSyncQueue(config = {}) {
 		}
 	}
 
-	self.reset = function() {
+	self.reset = function () {
 		if (enabled || executing) return;
 		queue.splice(0, queue.length);
 		cursor = 0;
