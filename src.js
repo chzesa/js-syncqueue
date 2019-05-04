@@ -3,7 +3,7 @@ function newSyncQueue(config) {
 	const queue = [];
 	const onCompleteCallbacks = [];
 
-	var enabled = config.enabled || true;
+	var enabled = config.enabled == null ? true : config.enabled;
 	var executing = false;
 	var cursor = 0;
 
