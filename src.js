@@ -10,7 +10,7 @@ function newSyncQueue(e = true) {
 	const guard = async function (task, param = null) {
 		return new Promise(async function (res, rej) {
 			try {
-				await task(param).then(res);
+				await task(...param).then(res);
 			}
 			catch (e) {
 				console.log(e);
@@ -48,7 +48,7 @@ function newSyncQueue(e = true) {
 		}
 	}
 
-	self.do = function (param, callback) {
+	self.do = function (callback, ...param) {
 		return new Promise(function(resolve, reject) {
 			queue.push({
 				param
