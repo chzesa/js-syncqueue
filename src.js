@@ -78,6 +78,12 @@ function newSyncQueue(config) {
 		}
 	}
 
+	self.reset = function() {
+		if (enabled || executing) return;
+		queue.splice(0, queue.length);
+		cursor = 0;
+	}
+
 	self.enable = function () {
 		enabled = true;
 		execute();
