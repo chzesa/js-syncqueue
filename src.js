@@ -7,7 +7,7 @@ function newSyncQueue(config) {
 	var executing = false;
 	var cursor = 0;
 
-	const guard = async function (task, param = null) {
+	async function guard(task, param = null) {
 		return new Promise(async function (res, rej) {
 			try {
 				await task(...param).then(res);
@@ -19,7 +19,7 @@ function newSyncQueue(config) {
 		});
 	}
 
-	const execute = async function (redo = false) {
+	async function execute(redo = false) {
 		if (!enabled || (executing && !redo)) {
 			return;
 		}
