@@ -1,10 +1,10 @@
-function newSyncQueue(e = true) {
+function newSyncQueue(config) {
 	const self = {};
 	const queue = [];
 	const onCompleteCallbacks = [];
 
+	var enabled = config.enabled || true;
 	var executing = false;
-	var enabled = e;
 	var cursor = 0;
 
 	const guard = async function (task, param = null) {
