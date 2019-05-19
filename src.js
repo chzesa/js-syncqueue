@@ -63,6 +63,10 @@ function newSyncQueue(config = {}) {
 		onCompleteCallbacks.push(callback);
 	}
 
+	self.length = function() {
+		return queue.length;
+	}
+
 	self.disable = async function (timeout = 1000) {
 		enabled = false;
 
