@@ -26,7 +26,7 @@ function newSyncQueue(config = {}) {
 	let executing = false;
 	let cursor = 0;
 
-	async function guard (task, param) {
+	function guard (task, param) {
 		return new Promise(async function (res, rej) {
 			try {
 				if (param == null) {
