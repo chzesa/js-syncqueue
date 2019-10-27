@@ -50,8 +50,8 @@ function newSyncQueue(config = {}) {
 			cursor = 0;
 			while (cursor < queue.length && enabled) {
 				let item = queue[cursor];
-				await guard(item.callback, item.param);
-				item.resolve();
+				let val = await guard(item.callback, item.param);
+				item.resolve(val);
 				cursor++;
 			}
 
