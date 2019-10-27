@@ -22,9 +22,9 @@ function newSyncQueue(config = {}) {
 	const self = {};
 	const queue = [];
 
-	var enabled = config.enabled == null ? true : config.enabled;
-	var executing = false;
-	var cursor = 0;
+	let enabled = config.enabled == null ? true : config.enabled;
+	let executing = false;
+	let cursor = 0;
 
 	async function guard (task, param) {
 		return new Promise(async function (res, rej) {
@@ -49,7 +49,7 @@ function newSyncQueue(config = {}) {
 		while (queue.length > 0 && enabled) {
 			cursor = 0;
 			while (cursor < queue.length) {
-				var item = queue[cursor];
+				let item = queue[cursor];
 				cursor++;
 				await guard(item.callback, item.param);
 				item.resolve();
@@ -88,7 +88,7 @@ function newSyncQueue(config = {}) {
 		}
 
 		while (executing) {
-			var startCounter = cursor;
+			let startCounter = cursor;
 			await wait(timeout);
 
 			if (cursor == startCounter) {
