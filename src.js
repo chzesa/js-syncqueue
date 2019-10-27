@@ -21,7 +21,6 @@
 function newSyncQueue(config = {}) {
 	const self = {};
 	const queue = [];
-	const onCompleteCallbacks = [];
 
 	var enabled = config.enabled == null ? true : config.enabled;
 	var executing = false;
@@ -57,10 +56,6 @@ function newSyncQueue(config = {}) {
 			}
 
 			queue.splice(0, cursor);
-
-			for (var i in onCompleteCallbacks) {
-				await guard(onCompleteCallbacks[i]);
-			}
 		}
 
 		executing = false
@@ -77,10 +72,6 @@ function newSyncQueue(config = {}) {
 
 			execute();
 		});
-	}
-
-	self.onComplete = function (callback) {
-		onCompleteCallbacks.push(callback);
 	}
 
 	self.length = function() {
