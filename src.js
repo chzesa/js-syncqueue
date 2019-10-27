@@ -48,11 +48,11 @@ function newSyncQueue(config = {}) {
 
 		while (queue.length > 0 && enabled) {
 			cursor = 0;
-			while (cursor < queue.length) {
+			while (cursor < queue.length && enabled) {
 				let item = queue[cursor];
-				cursor++;
 				await guard(item.callback, item.param);
 				item.resolve();
+				cursor++;
 			}
 
 			queue.splice(0, cursor);
